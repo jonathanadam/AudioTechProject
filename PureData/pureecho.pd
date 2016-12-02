@@ -1,0 +1,36 @@
+#N canvas 543 54 513 439 10;
+#X obj 180 75 adc~;
+#X obj 179 135 *~;
+#X obj 206 104 hsl 50 20 0 5 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 1200 1;
+#X obj 178 178 freeverb~;
+#X obj 184 244 dac~;
+#X obj 86 222 writesf~ 2;
+#X msg 29 165 start;
+#X msg 29 186 stop;
+#X msg 72 176 open rhab.wav;
+#X obj 307 67 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 2300 1;
+#X msg 304 94 wet \$1;
+#X obj 307 116 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 1100 1;
+#X obj 306 165 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 2300 1;
+#X msg 304 143 dry \$1;
+#X msg 303 192 roomsize \$1;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 1 1;
+#X connect 3 0 4 0;
+#X connect 3 0 4 1;
+#X connect 3 0 5 0;
+#X connect 3 0 5 1;
+#X connect 6 0 5 0;
+#X connect 7 0 5 0;
+#X connect 8 0 5 0;
+#X connect 9 0 10 0;
+#X connect 10 0 3 0;
+#X connect 11 0 13 0;
+#X connect 12 0 14 0;
+#X connect 13 0 3 0;
+#X connect 14 0 3 0;
