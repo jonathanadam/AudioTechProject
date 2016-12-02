@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD950E031DF16EC6004B5A25 /* simpleplayback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD950E011DF16EC6004B5A25 /* simpleplayback.cpp */; };
 		CDA251B11DE71461005A7878 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA251B01DE71461005A7878 /* libportaudio.a */; };
 		CDA251B31DE716E3005A7878 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA251B21DE716E3005A7878 /* libportaudio.a */; };
 		CDA251B61DE8173D005A7878 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CDA251B41DE8173D005A7878 /* main.cpp */; };
@@ -33,6 +34,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CD950E011DF16EC6004B5A25 /* simpleplayback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleplayback.cpp; sourceTree = "<group>"; };
+		CD950E021DF16EC6004B5A25 /* simpleplayback.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simpleplayback.hpp; sourceTree = "<group>"; };
 		CDA251AF1DE71421005A7878 /* portaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = portaudio.h; path = ../../Downloads/portaudio/include/portaudio.h; sourceTree = "<group>"; };
 		CDA251B01DE71461005A7878 /* libportaudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libportaudio.a; path = ../../Downloads/portaudio/lib/.libs/libportaudio.a; sourceTree = "<group>"; };
 		CDA251B21DE716E3005A7878 /* libportaudio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libportaudio.a; path = ../../../../usr/local/lib/libportaudio.a; sourceTree = "<group>"; };
@@ -89,6 +92,8 @@
 		CDBEC25C1DE47A320034CC9A /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				CD950E011DF16EC6004B5A25 /* simpleplayback.cpp */,
+				CD950E021DF16EC6004B5A25 /* simpleplayback.hpp */,
 				CDA251B41DE8173D005A7878 /* main.cpp */,
 				CDA251B51DE8173D005A7878 /* main.hpp */,
 				CDBEC25D1DE47A320034CC9A /* playback.cpp */,
@@ -171,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDA251B61DE8173D005A7878 /* main.cpp in Sources */,
+				CD950E031DF16EC6004B5A25 /* simpleplayback.cpp in Sources */,
 				CDBEC25E1DE47A320034CC9A /* playback.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
