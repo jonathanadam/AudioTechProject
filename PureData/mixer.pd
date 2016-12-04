@@ -1,4 +1,4 @@
-#N canvas 0 0 1362 712 10;
+#N canvas -8 -8 1366 686 10;
 #X obj 125 71 soundfiler;
 #X obj 126 143 expr 44100 / $f1;
 #X obj 126 256 phasor~;
@@ -27,7 +27,7 @@
 #X msg 754 539 \$1 20;
 #X obj 373 331 tabread4~ array2;
 #X obj 756 376 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -99865
--262144 -262144 6700 1;
+-262144 -262144 12700 1;
 #X obj 742 242 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
 #X obj 742 279 t b b;
@@ -35,13 +35,13 @@
 #X msg 780 314 0;
 #X text 738 224 Stop;
 #X obj 696 163 hsl 128 15 -0.2 0.2 0 0 empty empty empty -2 -8 0 10
--262144 -1 -1 7425 1;
+-262144 -1 -1 0 1;
 #X floatatom 693 190 10 0 0 0 - - -, f 10;
 #X text 753 132 Playback speed;
 #X obj 549 323 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 12700 1;
+-1 -1 11500 1;
 #X obj 300 322 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 12700 1;
+-1 -1 9000 1;
 #X obj 745 82 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034 -1
 -1;
 #X text 742 62 Play;
@@ -72,7 +72,7 @@
 #X text 1310 362 volume;
 #X floatatom 1185 193 10 0 0 0 - - -, f 10;
 #X obj 1361 318 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 0 1;
+-1 -1 12700 1;
 #X obj 1210 103 table array4;
 #X obj 1184 329 tabread4~ array4;
 #X msg 126 37 read -resize drums.wav array1;
@@ -87,31 +87,31 @@
 #X obj 400 486 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -262130 -1 -1 0 1;
 #X obj 399 542 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--204800 -1 -1 5100 1;
+-204800 -1 -1 0 1;
 #X obj 130 507 hip~ 5;
 #X text 150 467 High pass filter;
 #X obj 131 568 lop~ 20000;
 #X text 148 526 Low pass filter;
 #X obj 155 487 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--262130 -1 -1 8500 1;
+-262130 -1 -1 0 1;
 #X obj 154 543 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--204800 -1 -1 12700 1;
+-204800 -1 -1 0 1;
 #X obj 920 511 hip~ 5;
 #X text 940 471 High pass filter;
 #X obj 921 572 lop~ 20000;
 #X text 938 530 Low pass filter;
 #X obj 945 491 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--262130 -1 -1 1600 1;
+-262130 -1 -1 0 1;
 #X obj 944 547 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--204800 -1 -1 9600 1;
+-204800 -1 -1 0 1;
 #X obj 1188 498 hip~ 5;
 #X text 1208 458 High pass filter;
 #X obj 1189 559 lop~ 20000;
 #X text 1206 517 Low pass filter;
 #X obj 1213 478 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--262130 -1 -1 2300 1;
+-262130 -1 -1 0 1;
 #X obj 1212 534 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
--204800 -1 -1 9900 1;
+-204800 -1 -1 0 1;
 #X obj 907 638 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
 #X obj 787 663 env~;
 #X obj 852 687 - 100;
@@ -119,6 +119,7 @@
 #X floatatom 572 195 5 0 0 0 - - -, f 5;
 #X floatatom 608 162 5 0 0 0 - - -, f 5;
 #X obj 535 158 midiin;
+#X obj 715 1 loadbang;
 #X connect 0 0 1 0;
 #X connect 0 0 3 1;
 #X connect 1 0 10 0;
@@ -215,3 +216,7 @@
 #X connect 99 0 97 1;
 #X connect 103 0 100 0;
 #X connect 103 1 101 0;
+#X connect 104 0 69 0;
+#X connect 104 0 68 0;
+#X connect 104 0 70 0;
+#X connect 104 0 71 0;
