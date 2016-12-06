@@ -1,0 +1,23 @@
+#N canvas 612 14 667 670 10;
+#X text 635 14 TouchOSC;
+#X text 636 29 http://hexler.net/touchosc;
+#X obj 228 218 sendOSC;
+#X text 636 44 basic.pd v1.0;
+#X msg 265 184 send /1/fader1 1;
+#X text 381 185 Use osc address of control. OSC messages are constructed
+like this: /pagenumber/controlname;
+#X msg 132 157 disconnect;
+#X obj 34 74 dumpOSC 9000;
+#X obj 34 108 print osc;
+#X msg 227 153 connect 130.229.135.239 9000;
+#X text 228 108 Sending values to computer on port 9000 Replace IP
+with the ip-address of the computer;
+#X text 29 19 Receiving values on port 8000;
+#X text 46 311 1- enter your ip in the connect box 2- add mrpeach to
+the library (edit -> preferences -> new) (only works with pd-extended)
+3- click send and look at console if it is received;
+#X connect 4 0 2 0;
+#X connect 6 0 2 0;
+#X connect 7 0 8 0;
+#X connect 9 0 2 0;
+#X coords 0 0 1 1 85 60 0;
