@@ -158,7 +158,6 @@
 #X text 230 24 import library to receive osc;
 #X text 227 74 receive osc from port 56789;
 #X text 221 117 print osc in console for check;
-#X text 131 326 should be sent to dry/wet;
 #X connect 0 0 1 0;
 #X connect 0 0 3 1;
 #X connect 1 0 10 0;

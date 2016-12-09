@@ -1,4 +1,5 @@
 #N canvas 612 14 667 670 10;
+#X declare -lib mrpeach;
 #X text 635 14 TouchOSC;
 #X text 636 29 http://hexler.net/touchosc;
 #X obj 228 218 sendOSC;
@@ -12,10 +13,11 @@ like this: /pagenumber/controlname;
 #X msg 227 153 connect 130.229.135.239 9000;
 #X text 228 108 Sending values to computer on port 9000 Replace IP
 with the ip-address of the computer;
-#X text 29 19 Receiving values on port 8000;
 #X text 46 311 1- enter your ip in the connect box 2- add mrpeach to
 the library (edit -> preferences -> new) (only works with pd-extended)
 3- click send and look at console if it is received;
+#X obj 260 25 import mrpeach;
+#X text 32 50 Receiving values on port 9000;
 #X connect 4 0 2 0;
 #X connect 6 0 2 0;
 #X connect 7 0 8 0;
