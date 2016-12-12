@@ -1,7 +1,7 @@
-#N canvas 0 0 1362 686 10;
+#N canvas 1 1 1348 668 10;
 #X declare -lib mrpeach;
-#X obj 360 47 soundfiler;
-#X obj 360 74 expr 44100 / $f1;
+#X obj 360 53 soundfiler;
+#X obj 360 80 expr 44100 / $f1;
 #X obj 360 130 phasor~;
 #X obj 360 175 *~;
 #X obj 359 218 tabread4~ array1;
@@ -10,9 +10,9 @@
 #X floatatom 441 409 5 0 0 0 - - -;
 #X obj 359 480 *~;
 #X floatatom 360 104 10 0 0 0 - - -;
-#X obj 431 47 table array1;
-#X obj 549 47 soundfiler;
-#X obj 549 74 expr 44100 / $f1;
+#X obj 431 53 table array1;
+#X obj 549 53 soundfiler;
+#X obj 549 80 expr 44100 / $f1;
 #X obj 549 130 phasor~;
 #X obj 549 174 *~;
 #X obj 631 440 line~;
@@ -26,26 +26,26 @@
 #X msg 732 508 \$1 20;
 #X obj 548 219 tabread4~ array2;
 #X obj 1076 527 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -99865
--262144 -262144 10900 1;
-#X obj 773 44 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113 -1
--1;
-#X obj 771 143 t b b;
-#X msg 744 173 0;
-#X msg 815 173 0;
-#X text 766 26 Stop;
-#X obj 748 91 hsl 128 15 -0.2 0.2 0 0 empty empty empty -2 -8 0 10
--262144 -1 -1 7425 1;
-#X floatatom 745 112 10 0 0 0 - - -;
-#X text 805 67 Playback speed;
+-262144 -262144 5300 1;
+#X obj 757 103 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
+-1 -1;
+#X obj 755 202 t b b;
+#X msg 728 232 0;
+#X msg 799 232 0;
+#X text 750 85 Stop;
+#X obj 732 150 hsl 128 15 -0.2 0.2 0 0 empty empty empty -2 -8 0 10
+-232576 -1 -1 7425 1;
+#X floatatom 729 171 10 0 0 0 - - -;
+#X text 797 127 Playback speed;
 #X obj 1211 527 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 11000 1;
+-1 -1 9600 1;
 #X obj 1168 527 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 10700 1;
-#X obj 744 44 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034 -1
+-1 -1 10000 1;
+#X obj 728 103 bng 15 250 50 0 empty empty empty 17 7 0 10 -4034 -1
 -1;
-#X text 737 26 Play;
-#X obj 917 48 soundfiler;
-#X obj 917 75 expr 44100 / $f1;
+#X text 721 85 Play;
+#X obj 917 54 soundfiler;
+#X obj 917 81 expr 44100 / $f1;
 #X obj 917 134 phasor~;
 #X obj 917 174 *~;
 #X obj 1001 428 line~;
@@ -54,12 +54,12 @@
 #X obj 918 446 *~;
 #X floatatom 917 106 10 0 0 0 - - -;
 #X obj 1255 527 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 11600 1;
-#X obj 988 48 table array3;
+-1 -1 9800 1;
+#X obj 988 54 table array3;
 #X obj 916 216 tabread4~ array3;
-#X obj 621 47 table array2;
-#X obj 1137 50 soundfiler;
-#X obj 1137 77 expr 44100 / $f1;
+#X obj 621 53 table array2;
+#X obj 1137 56 soundfiler;
+#X obj 1137 83 expr 44100 / $f1;
 #X obj 1137 136 phasor~;
 #X obj 1137 176 *~;
 #X obj 1222 429 line~;
@@ -68,50 +68,50 @@
 #X obj 1140 447 *~;
 #X floatatom 1137 108 10 0 0 0 - - -;
 #X obj 1299 527 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
--1 -1 11400 1;
-#X obj 1208 50 table array4;
+-1 -1 10700 1;
+#X obj 1208 56 table array4;
 #X obj 1136 218 tabread4~ array4;
-#X msg 360 22 read -resize drums.wav array1;
-#X msg 549 23 read -resize bass.wav array2;
-#X msg 917 24 read -resize synths.wav array3;
-#X msg 1137 26 read -resize guits.wav array4;
-#X msg 745 69 0.0338542;
+#X msg 360 28 read -resize drums.wav array1;
+#X msg 549 29 read -resize bass.wav array2;
+#X msg 917 30 read -resize synths.wav array3;
+#X msg 1137 32 read -resize guits.wav array4;
+#X msg 729 128 0.0338542;
 #X obj 548 284 hip~ 5;
 #X text 570 244 High pass filter;
 #X obj 549 389 lop~ 20000;
-#X text 570 346 Low pass filter;
+#X text 585 348 Low pass filter;
 #X obj 575 264 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -262130 -1 -1 0 1;
-#X obj 576 363 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
+#X obj 576 365 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -204800 -1 -1 12700 1;
 #X obj 358 284 hip~ 5;
 #X text 381 244 High pass filter;
 #X obj 359 388 lop~ 20000;
-#X text 379 343 Low pass filter;
+#X text 392 349 Low pass filter;
 #X obj 386 264 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -262130 -1 -1 0 1;
-#X obj 385 360 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
+#X obj 385 366 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -204800 -1 -1 12700 1;
 #X obj 917 277 hip~ 5;
 #X text 937 237 High pass filter;
 #X obj 918 375 lop~ 20000;
-#X text 935 333 Low pass filter;
+#X text 946 336 Low pass filter;
 #X obj 942 257 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -262130 -1 -1 0 1;
-#X obj 941 350 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
+#X obj 941 353 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -204800 -1 -1 12700 1;
 #X obj 1138 273 hip~ 5;
 #X text 1163 462 High pass filter;
 #X obj 1139 376 lop~ 20000;
-#X text 1158 334 Low pass filter;
+#X text 1171 336 Low pass filter;
 #X obj 1165 253 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -262130 -1 -1 0 1;
-#X obj 1164 351 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
+#X obj 1164 353 hsl 128 15 0 10000 0 0 empty empty empty -2 -8 0 10
 -204800 -1 -1 12700 1;
 #X obj 1014 533 vu 15 120 empty empty -1 -8 0 10 -66577 -1 1 0;
 #X obj 758 605 env~;
 #X obj 814 605 - 100;
-#X obj 795 4 loadbang;
+#X obj 360 4 loadbang;
 #X obj 28 88 print osc;
 #X obj 16 51 dumpOSC 56789;
 #X obj 16 17 import mrpeach;
@@ -135,20 +135,20 @@
 #X obj 186 406 adc~;
 #X obj 185 436 *~;
 #X obj 184 463 freeverb~;
-#X obj 124 329 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+#X obj 124 329 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -261682
+-1 -1 647 1;
 #X msg 121 356 wet \$1;
-#X obj 19 323 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X obj 222 327 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X msg 16 350 dry \$1;
-#X msg 219 356 roomsize \$1;
+#X obj 19 329 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -261682
+-1 -1 2253 1;
+#X obj 218 327 hsl 30 20 0 1 0 0 empty empty empty -2 -8 0 10 -261682
+-1 -1 559 1;
+#X msg 16 356 dry \$1;
+#X msg 215 356 roomsize \$1;
 #X text 122 16 import library to receive osc;
 #X text 118 49 receive osc from port 56789;
-#X obj 219 296 expr 1-$f1/1500;
+#X obj 215 294 expr 1-$f1/1500;
 #X obj 121 294 expr $f1/1000;
-#X obj 16 293 expr 1-$f1/1000;
+#X obj 16 294 expr 1-$f1/1000;
 #X obj 1122 527 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -162280
 -1 -1 0 1;
 #X obj 562 644 writesf~ 2;
@@ -156,7 +156,6 @@
 #X msg 216 588 stop;
 #X msg 245 566 open mysong.wav;
 #X text 92 88 print osc in console to check if dump works;
-#X text 75 261 uses only touch for now;
 #X obj 298 460 line~;
 #X msg 298 434 \$1 20;
 #X floatatom 298 407 5 0 0 0 - - -;
@@ -173,7 +172,6 @@
 #X obj 200 567 bng 15 250 50 0 empty empty empty 17 7 0 10 -258113
 -1 -1;
 #X text 240 547 open file for recording;
-#X text 192 572;
 #X text 161 549 Start;
 #X text 198 549 Stop;
 #X text 1063 504 master;
@@ -182,10 +180,23 @@
 #X text 1247 504 synth;
 #X text 1290 504 guits;
 #X text 1114 504 voice;
-#X text 792 299;
-#X text 161 532 RECORDING;
-#X text 735 195 stop and reset phase;
+#X text 719 254 stop and reset phase;
 #X text 1162 236 High pass filter;
+#X text 53 264 uses only touch functions (for now);
+#X text 720 73 PLAY TRACK;
+#X text 160 529 RECORD;
+#X text 181 126 route OSC outputs;
+#X text 56 328 dry;
+#X text 164 328 wet;
+#X text 258 327 room size;
+#X text 604 5 load files when opening project;
+#X text 957 642 MIXER;
+#X text 747 651 sound output;
+#X obj 549 6 loadbang;
+#X obj 917 7 loadbang;
+#X obj 1137 7 loadbang;
+#X text 692 127 Reset;
+#X text 181 389 Mic input;
 #X connect 0 0 1 0;
 #X connect 0 0 3 1;
 #X connect 1 0 9 0;
@@ -282,10 +293,7 @@
 #X connect 91 0 88 1;
 #X connect 93 0 94 0;
 #X connect 94 0 92 1;
-#X connect 95 0 64 0;
 #X connect 95 0 63 0;
-#X connect 95 0 65 0;
-#X connect 95 0 66 0;
 #X connect 97 0 96 0;
 #X connect 97 0 103 0;
 #X connect 99 0 127 0;
@@ -320,20 +328,23 @@
 #X connect 127 0 122 0;
 #X connect 128 0 119 0;
 #X connect 129 0 121 0;
-#X connect 130 0 139 0;
+#X connect 130 0 138 0;
 #X connect 132 0 131 0;
 #X connect 133 0 131 0;
 #X connect 134 0 131 0;
-#X connect 137 0 117 1;
+#X connect 136 0 117 1;
+#X connect 137 0 136 0;
 #X connect 138 0 137 0;
-#X connect 139 0 138 0;
-#X connect 140 0 141 0;
-#X connect 141 0 73 0;
-#X connect 142 0 143 0;
-#X connect 143 0 79 0;
-#X connect 144 0 145 0;
-#X connect 145 0 85 0;
-#X connect 146 0 147 0;
-#X connect 147 0 91 0;
-#X connect 148 0 132 0;
-#X connect 149 0 133 0;
+#X connect 139 0 140 0;
+#X connect 140 0 73 0;
+#X connect 141 0 142 0;
+#X connect 142 0 79 0;
+#X connect 143 0 144 0;
+#X connect 144 0 85 0;
+#X connect 145 0 146 0;
+#X connect 146 0 91 0;
+#X connect 147 0 132 0;
+#X connect 148 0 133 0;
+#X connect 170 0 64 0;
+#X connect 171 0 65 0;
+#X connect 172 0 66 0;
