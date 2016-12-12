@@ -137,10 +137,13 @@ int record_short()
         SoundInfo soundinfo = {totalFrames, SAMPLE_RATE, NUM_CHANNELS, 0x010000|0x0002, NULL, NULL};
         AudioFile testfile = open_file("/Users/jonathanadam/Documents/test_file.wav",SFM_WRITE, &soundinfo);
         printf("Writing\n");
-        close_file(testfile);
+
         printf("Number of bytes is");
-        cout<< numBytes;
-        sf_write_float(testfile.sndfile, data.recordedSamples, numBytes);
+        cout<< totalFrames;
+        sf_count_t stuff = sf_writef_float(testfile.sndfile, data.recordedSamples, totalFrames);
+        printf("\n\n\n\n Number of stuff written is \n");
+        cout<<stuff;
+        close_file(testfile);
     }
     
     //    /* Playback recorded data.  -------------------------------------------- */

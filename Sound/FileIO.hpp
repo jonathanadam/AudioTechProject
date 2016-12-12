@@ -30,6 +30,10 @@ size_t read_from_file(AudioFile file, void* buffer, size_t size);
 // writes size buffers from buffer to file
 size_t write_to_file(AudioFile file, void* buffer, size_t size);
 
+void read_file_threadworker(AudioFile file, void* buffer);
+
+void write_file_threadworker(AudioFile file, void* buffer);
+
 int seek(AudioFile file, double ms);
 
 #endif /* FileIO_hpp */
