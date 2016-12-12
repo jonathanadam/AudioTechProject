@@ -7,6 +7,7 @@
 //
 
 #include "AudioWorker.hpp"
+
 #include "portaudio.h"
 #include "FileIO.hpp"
 
@@ -140,15 +141,23 @@ int record_short()
 
         printf("Number of bytes is");
         cout<< totalFrames;
-        sf_count_t stuff = sf_writef_float(testfile.sndfile, data.recordedSamples, totalFrames);
+        sf_count_t stuff = write_to_file(testfile, data.recordedSamples, totalFrames);
+//        sf_count_t stuff = sf_writef_float(testfile.sndfile, data.recordedSamples, totalFrames);
         printf("\n\n\n\n Number of stuff written is \n");
-        cout<<stuff;
+//        cout<<stuff;
         close_file(testfile);
     }
     
     //    /* Playback recorded data.  -------------------------------------------- */
         data.frameIndex = 0;
-    
+//
+    {
+        SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
+        AudioFile othertest = open_file("/Users/jonathanadam/Documents/moartest.wav",SFM_READ, &readinfo);
+        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
+        printf("weve tried to write stuff");
+        close_file(othertest);
+    }
     
         outputParameters.device = Pa_GetDefaultOutputDevice(); /* default output device */
         if (outputParameters.device == paNoDevice) {
@@ -175,7 +184,7 @@ int record_short()
         if( stream )
         {
             err = Pa_StartStream( stream );
-            if( err != paNoError ) goto done;
+            if( err != paNoError ) goto  done;
     
             printf("Waiting for playback to finish.\n"); fflush(stdout);
     

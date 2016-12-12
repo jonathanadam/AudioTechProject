@@ -25,10 +25,10 @@ AudioFile open_file (const char *path, int mode, SF_INFO *sndinfo);
 void close_file (AudioFile file);
 
 // reads max. size buffers into buffer from file
-size_t read_from_file(AudioFile file, void* buffer, size_t size);
+sf_count_t read_from_file(AudioFile file, float* buffer, sf_count_t frames);
 
 // writes size buffers from buffer to file
-size_t write_to_file(AudioFile file, void* buffer, size_t size);
+sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames);
 
 void read_file_threadworker(AudioFile file, void* buffer);
 
