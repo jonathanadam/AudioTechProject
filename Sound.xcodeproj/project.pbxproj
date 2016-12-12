@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD43E9231DFD7344002D3638 /* filerecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD43E9211DFD7344002D3638 /* filerecord.cpp */; };
+		CD43E92B1DFD75AB002D3638 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = CD43E9291DFD75AB002D3638 /* TPCircularBuffer.c */; };
+		CD43E92D1DFD788B002D3638 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD43E92C1DFD788B002D3638 /* QTKit.framework */; };
+		CD43E9371DFDFAC3002D3638 /* FileIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD43E9351DFDFAC3002D3638 /* FileIO.cpp */; };
+		CD43E93A1DFE0581002D3638 /* AudioWorker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD43E9381DFE0581002D3638 /* AudioWorker.cpp */; };
 		CD950E031DF16EC6004B5A25 /* simpleplayback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD950E011DF16EC6004B5A25 /* simpleplayback.cpp */; };
 		CDA251B11DE71461005A7878 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA251B01DE71461005A7878 /* libportaudio.a */; };
 		CDA251B31DE716E3005A7878 /* libportaudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA251B21DE716E3005A7878 /* libportaudio.a */; };
@@ -34,6 +39,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CD43E9211DFD7344002D3638 /* filerecord.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = filerecord.cpp; sourceTree = "<group>"; };
+		CD43E9221DFD7344002D3638 /* filerecord.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = filerecord.hpp; sourceTree = "<group>"; };
+		CD43E9291DFD75AB002D3638 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		CD43E92A1DFD75AB002D3638 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
+		CD43E92C1DFD788B002D3638 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		CD43E92E1DFD79CF002D3638 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = ../../Qt/5.7/clang_64/lib/QtCore.framework; sourceTree = "<group>"; };
+		CD43E92F1DFD79CF002D3638 /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = ../../Qt/5.7/clang_64/lib/QtGui.framework; sourceTree = "<group>"; };
+		CD43E9351DFDFAC3002D3638 /* FileIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileIO.cpp; sourceTree = "<group>"; };
+		CD43E9361DFDFAC3002D3638 /* FileIO.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FileIO.hpp; sourceTree = "<group>"; };
+		CD43E9381DFE0581002D3638 /* AudioWorker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioWorker.cpp; sourceTree = "<group>"; };
+		CD43E9391DFE0581002D3638 /* AudioWorker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioWorker.hpp; sourceTree = "<group>"; };
 		CD950E011DF16EC6004B5A25 /* simpleplayback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpleplayback.cpp; sourceTree = "<group>"; };
 		CD950E021DF16EC6004B5A25 /* simpleplayback.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = simpleplayback.hpp; sourceTree = "<group>"; };
 		CDA251AF1DE71421005A7878 /* portaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = portaudio.h; path = ../../Downloads/portaudio/include/portaudio.h; sourceTree = "<group>"; };
@@ -57,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD43E92D1DFD788B002D3638 /* QTKit.framework in Frameworks */,
 				CDA251BB1DE83CFD005A7878 /* libsndfile.1.dylib in Frameworks */,
 				CDA251BA1DE83CEE005A7878 /* libsndfile.a in Frameworks */,
 				CDBEC26E1DE58C460034CC9A /* AudioUnit.framework in Frameworks */,
@@ -92,8 +109,16 @@
 		CDBEC25C1DE47A320034CC9A /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				CD43E9381DFE0581002D3638 /* AudioWorker.cpp */,
+				CD43E9391DFE0581002D3638 /* AudioWorker.hpp */,
+				CD43E9351DFDFAC3002D3638 /* FileIO.cpp */,
+				CD43E9361DFDFAC3002D3638 /* FileIO.hpp */,
+				CD43E9211DFD7344002D3638 /* filerecord.cpp */,
+				CD43E9221DFD7344002D3638 /* filerecord.hpp */,
 				CD950E011DF16EC6004B5A25 /* simpleplayback.cpp */,
 				CD950E021DF16EC6004B5A25 /* simpleplayback.hpp */,
+				CD43E9291DFD75AB002D3638 /* TPCircularBuffer.c */,
+				CD43E92A1DFD75AB002D3638 /* TPCircularBuffer.h */,
 				CDA251B41DE8173D005A7878 /* main.cpp */,
 				CDA251B51DE8173D005A7878 /* main.hpp */,
 				CDBEC25D1DE47A320034CC9A /* playback.cpp */,
@@ -104,6 +129,9 @@
 		CDBEC2641DE58BE30034CC9A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CD43E92E1DFD79CF002D3638 /* QtCore.framework */,
+				CD43E92F1DFD79CF002D3638 /* QtGui.framework */,
+				CD43E92C1DFD788B002D3638 /* QTKit.framework */,
 				CDA251B91DE83CEE005A7878 /* libsndfile.a */,
 				CDA251B71DE83CC7005A7878 /* libsndfile.1.dylib */,
 				CDA251B21DE716E3005A7878 /* libportaudio.a */,
@@ -175,6 +203,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD43E92B1DFD75AB002D3638 /* TPCircularBuffer.c in Sources */,
+				CD43E9231DFD7344002D3638 /* filerecord.cpp in Sources */,
+				CD43E9371DFDFAC3002D3638 /* FileIO.cpp in Sources */,
+				CD43E93A1DFE0581002D3638 /* AudioWorker.cpp in Sources */,
 				CDA251B61DE8173D005A7878 /* main.cpp in Sources */,
 				CD950E031DF16EC6004B5A25 /* simpleplayback.cpp in Sources */,
 				CDBEC25E1DE47A320034CC9A /* playback.cpp in Sources */,
