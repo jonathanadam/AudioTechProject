@@ -120,56 +120,56 @@
 ////    return 0;
 //}
 //
-///* This routine is run in a separate thread to read data from file into the ring buffer (during Playback). When the file
-// has reached EOF, a flag is set so that the play PA callback can return paComplete */
-////static int threadFunctionReadFromRawFile(void* ptr)
-////{
-////    paTestData* pData = (paTestData*)ptr;
-////    
-////    
-////    
-////    while (1)
-////    {
-////        int32_t* availableBytes;
-////        void* bufferStart = TPCircularBufferHead(&pData->ringBuffer, availableBytes);
-////        
-////        ring_buffer_size_t elementsInBuffer = PaUtil_GetRingBufferWriteAvailable(&pData->ringBuffer);
-////        
-////        if (elementsInBuffer >= pData->ringBuffer.bufferSize / NUM_WRITES_PER_BUFFER) // if we have a complete write
-////        {
-////            void* ptr[2] = {0};
-////            ring_buffer_size_t sizes[2] = {0};
-////            
-////            /* By using PaUtil_GetRingBufferWriteRegions, we can write directly into the ring buffer */
-////            PaUtil_GetRingBufferWriteRegions(&pData->ringBuffer, elementsInBuffer, ptr + 0, sizes + 0, ptr + 1, sizes + 1);
-////            
-////            if (!feof(pData->file))
-////            {
-////                ring_buffer_size_t itemsReadFromFile = 0;
-////                int i;
-////                for (i = 0; i < 2 && ptr[i] != NULL; ++i)
-////                {
-////                    itemsReadFromFile += (ring_buffer_size_t)fread(ptr[i], pData->ringBuffer.elementSizeBytes, sizes[i], pData->file);
-////                }
-////                PaUtil_AdvanceRingBufferWriteIndex(&pData->ringBuffer, itemsReadFromFile);
-////                
-////                /* Mark thread started here, that way we "prime" the ring buffer before playback */
-////                pData->threadSyncFlag = 0;
-////            }
-////            else
-////            {
-////                /* No more data to read */
-////                pData->threadSyncFlag = 1;
-////                break;
-////            }
-////        }
-////        
-////        /* Sleep a little while... */
-////        Pa_Sleep(20);
-////    }
-////    
-////    return 0;
-////}
+/* This routine is run in a separate thread to read data from file into the ring buffer (during Playback). When the file
+ has reached EOF, a flag is set so that the play PA callback can return paComplete */
+//static int threadFunctionReadFromRawFile(void* ptr)
+//{
+//    paTestData* pData = (paTestData*)ptr;
+//    
+//    
+//    
+//    while (1)
+//    {
+//        int32_t* availableBytes;
+//        void* bufferStart = TPCircularBufferHead(&pData->ringBuffer, availableBytes);
+//        
+//        ring_buffer_size_t elementsInBuffer = PaUtil_GetRingBufferWriteAvailable(&pData->ringBuffer);
+//        
+//        if (elementsInBuffer >= pData->ringBuffer.bufferSize / NUM_WRITES_PER_BUFFER) // if we have a complete write
+//        {
+//            void* ptr[2] = {0};
+//            ring_buffer_size_t sizes[2] = {0};
+//            
+//            /* By using PaUtil_GetRingBufferWriteRegions, we can write directly into the ring buffer */
+//            PaUtil_GetRingBufferWriteRegions(&pData->ringBuffer, elementsInBuffer, ptr + 0, sizes + 0, ptr + 1, sizes + 1);
+//            
+//            if (!feof(pData->file))
+//            {
+//                ring_buffer_size_t itemsReadFromFile = 0;
+//                int i;
+//                for (i = 0; i < 2 && ptr[i] != NULL; ++i)
+//                {
+//                    itemsReadFromFile += (ring_buffer_size_t)fread(ptr[i], pData->ringBuffer.elementSizeBytes, sizes[i], pData->file);
+//                }
+//                PaUtil_AdvanceRingBufferWriteIndex(&pData->ringBuffer, itemsReadFromFile);
+//                
+//                /* Mark thread started here, that way we "prime" the ring buffer before playback */
+//                pData->threadSyncFlag = 0;
+//            }
+//            else
+//            {
+//                /* No more data to read */
+//                pData->threadSyncFlag = 1;
+//                break;
+//            }
+//        }
+//        
+//        /* Sleep a little while... */
+//        Pa_Sleep(20);
+//    }
+//    
+//    return 0;
+//}
 //
 //typedef int (*ThreadFunctionType)(void*);
 //

@@ -11,6 +11,8 @@
 #include "TPCircularBuffer.h"
 #include <stdio.h>
 #include <iostream>
+#include "portaudio.h"
+#include "AudioWorker.hpp"
 
 
 SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
@@ -45,5 +47,37 @@ sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames)
     return items_written;
     
 }
+
+void read_file_threadworker(AudioFile file, paTestData* testData)
+{
+    paTestData* data = testData;
+    while (data->threadSync == 0){
+        int32_t availableBytes;
+        void *write_start = TPCircularBufferHead(&data->buffer, &availableBytes);
+        float bytes_to_read[availableBytes];
+        sf_count_t amount_read = read_from_file(file, bytes_to_read, availableBytes); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
+        if (amount_read < availableBytes){ // done reading
+            data->threadSync = 1;
+        }
+        TPCircularBufferProduceBytes(&data->buffer, bytes_to_read, availableBytes);
+        
+    }
+}
+
+void write_file_threadworker(AudioFile file, paTestData* testData)
+{
+    {
+        paTestData* data = testData;
+        while (data->threadSync == 0){
+            int32_t availableBytes;
+            void *read_start = TPCircularBufferTail(&data->buffer, &availableBytes);
+            float bytes_to_write[availableBytes];
+            memcpy(bytes_to_write, read_start, availableBytes); // FIGURE OUT FRAMES FROM BYTES
+            TPCircularBufferConsume(&data->buffer, availableBytes);
+            write_to_file(file, bytes_to_write, availableBytes);
+        }
+    }
+}
+
 
 int seek(AudioFile file, double ms);

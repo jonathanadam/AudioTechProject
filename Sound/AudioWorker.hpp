@@ -12,9 +12,23 @@
 
 #include <stdio.h>
 
+#include "TPCircularBuffer.h"
+
+typedef struct
+{
+    int          frameIndex;  /* Index into sample array. */
+    int          maxFrameIndex;
+    int          threadSync;
+    float      *recordedSamples;
+    TPCircularBuffer buffer;
+}
+paTestData;
+
 int record_short();
 
 int record_file();
+
+void record_threadworker(bool keepPlaying);
 
 int play_file(char filename, double startingpoint);
 

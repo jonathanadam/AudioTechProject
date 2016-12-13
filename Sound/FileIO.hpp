@@ -12,6 +12,10 @@
 #include <stdio.h>
 #include <sndfile.h>
 #include "TPCircularBuffer.h"
+#include "AudioWorker.hpp"
+
+
+
 
 
 typedef SF_INFO SoundInfo;
@@ -30,9 +34,9 @@ sf_count_t read_from_file(AudioFile file, float* buffer, sf_count_t frames);
 // writes size buffers from buffer to file
 sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames);
 
-void read_file_threadworker(AudioFile file, void* buffer);
+void read_file_threadworker(AudioFile file, paTestData* testData);
 
-void write_file_threadworker(AudioFile file, void* buffer);
+void write_file_threadworker(AudioFile file, paTestData* testData);
 
 int seek(AudioFile file, double ms);
 

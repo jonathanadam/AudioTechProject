@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #define reportResult(result,operation) (_reportResult((result),(operation),strrchr(__FILE__, '/')+1,__LINE__))
 static inline bool _reportResult(kern_return_t result, const char *operation, const char* file, int line) {
     if ( result != ERR_SUCCESS ) {
@@ -54,6 +55,7 @@ bool _TPCircularBufferInit(TPCircularBuffer *buffer, int32_t length, size_t stru
     int retries = 3;
     while ( true ) {
 
+        printf("once");
         buffer->length = (int32_t)round_page(length);    // We need whole page sizes
 
         // Temporarily allocate twice the length, so we have the contiguous address space to

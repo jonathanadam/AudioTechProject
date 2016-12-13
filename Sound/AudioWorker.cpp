@@ -10,8 +10,11 @@
 
 #include "portaudio.h"
 #include "FileIO.hpp"
+#include "TPCircularBuffer.h"
 
 #include <iostream>
+#include <thread>
+#include <chrono>
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
 #define SAMPLE_RATE  (44100)
 #define FRAMES_PER_BUFFER (512)
@@ -44,13 +47,7 @@ typedef unsigned char SAMPLE;
 #define PRINTF_S_FORMAT "%d"
 #endif
 
-typedef struct
-{
-    int          frameIndex;  /* Index into sample array. */
-    int          maxFrameIndex;
-    SAMPLE      *recordedSamples;
-}
-paTestData;
+
 
 
 int record_short()
@@ -79,6 +76,7 @@ int record_short()
         //        goto done;
     }
     for( i=0; i<numSamples; i++ ) data.recordedSamples[i] = 0;
+    TPCircularBufferInit(&data.buffer, numBytes);
     
     err = Pa_Initialize();
     if( err != paNoError ) goto done;
@@ -155,6 +153,13 @@ int record_short()
         SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
         AudioFile othertest = open_file("/Users/jonathanadam/Documents/moartest.wav",SFM_READ, &readinfo);
         sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
+        
+        //Buffer experiment
+        int32_t available;
+        void *head = TPCircularBufferHead(&data.buffer, &available);
+        memcpy(head, data.recordedSamples, numBytes);
+        TPCircularBufferProduce(&data.buffer, numBytes);
+        //end of buffer experiment
         printf("weve tried to write stuff");
         close_file(othertest);
     }
@@ -270,6 +275,8 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
 {
     paTestData *data = (paTestData*)userData;
     SAMPLE *rptr = &data->recordedSamples[data->frameIndex * NUM_CHANNELS];
+    int32_t available;
+    //float *rptr = TPCircularBufferTail(&data->buffer, &available);
     SAMPLE *wptr = (SAMPLE*)outputBuffer;
     unsigned int i;
     int finished;
@@ -310,6 +317,14 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
 }
 
 
+void record_threadworker(bool keepPlaying)
+{
+    while (keepPlaying)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        printf("We are still playing");
+    }
+}
 
 
 int record_file();

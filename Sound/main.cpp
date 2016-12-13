@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sndfile.h>
+#include <thread>
+#include <chrono>
 #include "portaudio.h"
 #include "AudioWorker.hpp"
 using namespace std;
@@ -38,21 +40,27 @@ typedef unsigned char SAMPLE;
 #define PRINTF_S_FORMAT "%d"
 #endif
 
-typedef struct
-{
-    int          frameIndex;  /* Index into sample array. */
-    int          maxFrameIndex;
-    SAMPLE      *recordedSamples;
-}
-paTestData;
+//typedef struct
+//{
+//    int          frameIndex;  /* Index into sample array. */
+//    int          maxFrameIndex;
+//    SAMPLE      *recordedSamples;
+//}
+//paTestData;
 
 
 /*******************************************************************/
 
 int main(void)
 {
-    
-    record_short();
+    bool isPlaying = true;
+    std::thread record_thread (record_threadworker,&isPlaying);
+    record_thread.detach();
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    isPlaying =false;
+//    record_thread.join();
+    printf("Were done");
+    //record_short();
 //
 //    printf("Please select options: 1 - play file; 2 - record short; 3 - record long\n");
 //    int choice;
