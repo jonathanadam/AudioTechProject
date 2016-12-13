@@ -48,32 +48,33 @@ sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames)
     
 }
 
-void read_file_threadworker(AudioFile file, paTestData* testData)
+void read_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)
 {
-    paTestData* data = testData;
-    while (data->threadSync == 0){
+    while (threadSync == 0)
+    {
         int32_t availableBytes;
-        void *write_start = TPCircularBufferHead(&data->buffer, &availableBytes);
+        void *write_start = TPCircularBufferHead(buffer, &availableBytes);
         float bytes_to_read[availableBytes];
-        sf_count_t amount_read = read_from_file(file, bytes_to_read, availableBytes); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
+        int channels = file.sndinfo.channels;
+        sf_count_t amount_to_read = availableBytes/(channels*sizeof(float));
+        sf_count_t amount_read = read_from_file(file, bytes_to_read, amount_to_read); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
         if (amount_read < availableBytes){ // done reading
-            data->threadSync = 1;
+           *threadSync = 1;
         }
-        TPCircularBufferProduceBytes(&data->buffer, bytes_to_read, availableBytes);
+        TPCircularBufferProduceBytes(buffer, bytes_to_read, availableBytes);
         
     }
 }
 
-void write_file_threadworker(AudioFile file, paTestData* testData)
+void write_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)
 {
     {
-        paTestData* data = testData;
-        while (data->threadSync == 0){
+        while (threadSync == 0){
             int32_t availableBytes;
-            void *read_start = TPCircularBufferTail(&data->buffer, &availableBytes);
+            void *read_start = TPCircularBufferTail(buffer, &availableBytes);
             float bytes_to_write[availableBytes];
             memcpy(bytes_to_write, read_start, availableBytes); // FIGURE OUT FRAMES FROM BYTES
-            TPCircularBufferConsume(&data->buffer, availableBytes);
+            TPCircularBufferConsume(buffer, availableBytes);
             write_to_file(file, bytes_to_write, availableBytes);
         }
     }

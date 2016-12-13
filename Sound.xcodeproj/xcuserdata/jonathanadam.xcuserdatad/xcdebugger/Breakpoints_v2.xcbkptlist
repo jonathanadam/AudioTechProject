@@ -70,16 +70,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sound/FileIO.cpp"
-            timestampString = "503349301.378627"
+            timestampString = "503359959.364752"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "read_file_threadworker(AudioFile file, paTestData* testData)"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "read_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sound/FileIO.cpp"
+            timestampString = "503359734.947495"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "read_file_threadworker(AudioFile file, TPCircularBuffer buffer, int* threadSync)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

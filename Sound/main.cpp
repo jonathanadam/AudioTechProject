@@ -53,14 +53,21 @@ typedef unsigned char SAMPLE;
 
 int main(void)
 {
-    bool isPlaying = true;
-    std::thread record_thread (record_threadworker,&isPlaying);
-    record_thread.detach();
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    isPlaying =false;
-//    record_thread.join();
-    printf("Were done");
-    //record_short();
+//    bool isPlaying = true;
+//    std::thread record_thread (record_threadworker,&isPlaying);
+//    record_thread.detach();
+//    std::this_thread::sleep_for(std::chrono::seconds(5));
+//    isPlaying =false;
+////    record_thread.join();
+//    printf("Were done");
+  
+    
+    record_short();
+    //play_file("/Users/jonathanadam/Documents/moartest.wav", 00);
+    
+    
+    
+    
 //
 //    printf("Please select options: 1 - play file; 2 - record short; 3 - record long\n");
 //    int choice;
