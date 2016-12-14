@@ -62,8 +62,8 @@ int main(void)
 //    printf("Were done");
   
     
-    record_short();
-    //play_file("/Users/jonathanadam/Documents/moartest.wav", 00);
+    //record_short();
+    play_file("/Users/jonathanadam/Documents/moartest.wav", 00);
     
     
     

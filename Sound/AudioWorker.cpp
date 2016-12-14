@@ -152,13 +152,16 @@ int record_short()
     {
         SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
         AudioFile othertest = open_file("/Users/jonathanadam/Documents/moartest.wav",SFM_READ, &readinfo);
-        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
+//        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
+//        int32_t available;
+//        void *head = TPCircularBufferHead(&data.buffer, &available);
+//        memcpy(head, data.recordedSamples, numBytes);
+//        TPCircularBufferProduce(&data.buffer, numBytes);
         
+        printf("trying to do the thing.\n\nn\n");
+        read_file_threadworker(&othertest, &data.buffer, &data.threadSync);
         //Buffer experiment
-        int32_t available;
-        void *head = TPCircularBufferHead(&data.buffer, &available);
-        memcpy(head, data.recordedSamples, numBytes);
-        TPCircularBufferProduce(&data.buffer, numBytes);
+
         //end of buffer experiment
         printf("weve tried to write stuff");
         close_file(othertest);
@@ -217,55 +220,55 @@ int record_short()
 
 }
 
-static int shortrecordCallback( const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo* timeInfo,
-                          PaStreamCallbackFlags statusFlags,
-                          void *userData )
-{
-    paTestData *data = (paTestData*)userData;
-    const SAMPLE *rptr = (const SAMPLE*)inputBuffer;
-    SAMPLE *wptr = &data->recordedSamples[data->frameIndex * NUM_CHANNELS];
-    long framesToCalc;
-    long i;
-    int finished;
-    unsigned long framesLeft = data->maxFrameIndex - data->frameIndex;
-    
-    (void) outputBuffer; /* Prevent unused variable warnings. */
-    (void) timeInfo;
-    (void) statusFlags;
-    (void) userData;
-    
-    if( framesLeft < framesPerBuffer )
-    {
-        framesToCalc = framesLeft;
-        finished = paComplete;
-    }
-    else
-    {
-        framesToCalc = framesPerBuffer;
-        finished = paContinue;
-    }
-    
-    if( inputBuffer == NULL )
-    {
-        for( i=0; i<framesToCalc; i++ )
-        {
-            *wptr++ = SAMPLE_SILENCE;  /* left */
-            if( NUM_CHANNELS == 2 ) *wptr++ = SAMPLE_SILENCE;  /* right */
-        }
-    }
-    else
-    {
-        for( i=0; i<framesToCalc; i++ )
-        {
-            *wptr++ = *rptr++;  /* left */
-            if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */
-        }
-    }
-    data->frameIndex += framesToCalc;
-    return finished;
-}
+//static int shortrecordCallback( const void *inputBuffer, void *outputBuffer,
+//                          unsigned long framesPerBuffer,
+//                          const PaStreamCallbackTimeInfo* timeInfo,
+//                          PaStreamCallbackFlags statusFlags,
+//                          void *userData )
+//{
+//    paTestData *data = (paTestData*)userData;
+//    const SAMPLE *rptr = (const SAMPLE*)inputBuffer;
+//    SAMPLE *wptr = &data->recordedSamples[data->frameIndex * NUM_CHANNELS];
+//    long framesToCalc;
+//    long i;
+//    int finished;
+//    unsigned long framesLeft = data->maxFrameIndex - data->frameIndex;
+//    
+//    (void) outputBuffer; /* Prevent unused variable warnings. */
+//    (void) timeInfo;
+//    (void) statusFlags;
+//    (void) userData;
+//    
+//    if( framesLeft < framesPerBuffer )
+//    {
+//        framesToCalc = framesLeft;
+//        finished = paComplete;
+//    }
+//    else
+//    {
+//        framesToCalc = framesPerBuffer;
+//        finished = paContinue;
+//    }
+//    
+//    if( inputBuffer == NULL )
+//    {
+//        for( i=0; i<framesToCalc; i++ )
+//        {
+//            *wptr++ = SAMPLE_SILENCE;  /* left */
+//            if( NUM_CHANNELS == 2 ) *wptr++ = SAMPLE_SILENCE;  /* right */
+//        }
+//    }
+//    else
+//    {
+//        for( i=0; i<framesToCalc; i++ )
+//        {
+//            *wptr++ = *rptr++;  /* left */
+//            if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */
+//        }
+//    }
+//    data->frameIndex += framesToCalc;
+//    return finished;
+//}
 
 
 static int recordCallback( const void *inputBuffer, void *outputBuffer,
@@ -341,11 +344,13 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
     (void) statusFlags;
     (void) userData;
     
-    if( framesLeft < framesPerBuffer )
+    int32_t bytes_per_buffer = framesPerBuffer*sizeof(SAMPLE)*NUM_CHANNELS;
+    if( availableBytes < bytes_per_buffer ) //used to be framesLeft<framesPerBuffer
     {
-        
+        framesLeft = availableBytes/(sizeof(SAMPLE)*NUM_CHANNELS);// This used to not be here
         /* final buffer... */
-        for( i=0; i<framesLeft; i++ )
+        //for( i=0; i<framesLeft; i++ ) //used to be i
+        for (i= 0; i<framesLeft; i++)
         {
             *wptr++ = *rptr++;  /* left */
             if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */
@@ -358,7 +363,7 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
             *wptr++ = 0;  /* left */
             if( NUM_CHANNELS == 2 ) *wptr++ = 0;  /* right */
         }
-        data->frameIndex += framesLeft;
+        //data->frameIndex += framesLeft;
         finished = paComplete;
     }
     else
@@ -373,7 +378,7 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
                 TPCircularBufferConsume(&data->buffer, sizeof(float));
             }
         }
-        data->frameIndex += framesPerBuffer;
+//        data->frameIndex += framesPerBuffer;
         finished = paContinue;
     }
     return finished;
@@ -460,9 +465,18 @@ void play_file(const char *filename, double startingpoint)
     data.frameIndex = 0;
     numSamples = totalFrames * NUM_CHANNELS;
     numBytes = numSamples * sizeof(SAMPLE);
-    TPCircularBufferInit(&data.buffer, numBytes/5);
+    TPCircularBufferInit(&data.buffer, numBytes);
+    
     
     err = Pa_Initialize();
+    
+    AudioFile fileToRead = open_file(filename, SFM_READ, &readinfo);
+    read_file_threadworker(&fileToRead, &data.buffer, &data.threadSync);
+//    std::thread readFileToBuffer(read_file_threadworker, &fileToRead, &data.buffer, &data.threadSync);
+//    readFileToBuffer.detach();
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+//    printf("okay now lets get started");
+    
     if( err != paNoError ) goto done;
 
     //FIND OUTPUT DEVICES
@@ -479,9 +493,12 @@ void play_file(const char *filename, double startingpoint)
     
 //    {
 //        AudioFile fileToRead = open_file(filename, SFM_READ, &readinfo);
-////        std::thread readFileToBuffer(read_file_threadworker, fileToRead, &data);
+//        std::thread readFileToBuffer(read_file_threadworker, fileToRead, &data.buffer, &data.threadSync);
+//        readFileToBuffer.detach();
+//        std::this_thread::sleep_for(std::chrono::seconds(1));
+//        printf("okay now lets get started");
 ////        readFileToBuffer.join();
-//        read_file_threadworker(fileToRead, &data.buffer, &data.threadSync);
+////        read_file_threadworker(fileToRead, &data.buffer, &data.threadSync);
 //    }
     
     printf("\nplaying back\n"); fflush(stdout);

@@ -42,14 +42,14 @@ static int recordCallback(const void *inputBuffer, void *outputBuffer,
                           const PaStreamCallbackTimeInfo* timeInfo,
                           PaStreamCallbackFlags statusFlags,
                           void *userData);
-static int shortrecordCallback(const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo* timeInfo,
-                          PaStreamCallbackFlags statusFlags,
-                          void *userData);
-static int shortplayCallback(const void *inputBuffer, void *outputBuffer,
-                          unsigned long framesPerBuffer,
-                          const PaStreamCallbackTimeInfo* timeInfo,
-                          PaStreamCallbackFlags statusFlags,
-                          void *userData);
+//static int shortrecordCallback(const void *inputBuffer, void *outputBuffer,
+//                          unsigned long framesPerBuffer,
+//                          const PaStreamCallbackTimeInfo* timeInfo,
+//                          PaStreamCallbackFlags statusFlags,
+//                          void *userData);
+//static int shortplayCallback(const void *inputBuffer, void *outputBuffer,
+//                          unsigned long framesPerBuffer,
+//                          const PaStreamCallbackTimeInfo* timeInfo,
+//                          PaStreamCallbackFlags statusFlags,
+//                          void *userData);
 #endif /* AudioWorker_hpp */

@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sound/AudioWorker.cpp"
-            timestampString = "503348378.958635"
+            timestampString = "503360392.859879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "207"
+            endingLineNumber = "207"
             landmarkName = "record_short()"
             landmarkType = "9">
          </BreakpointContent>
@@ -74,28 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sound/FileIO.cpp"
-            timestampString = "503359959.364752"
+            timestampString = "503361721.808797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "read_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sound/FileIO.cpp"
-            timestampString = "503359734.947495"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "read_file_threadworker(AudioFile file, TPCircularBuffer buffer, int* threadSync)"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "read_file_threadworker(AudioFile* file, TPCircularBuffer* buffer, int* threadSync)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

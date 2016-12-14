@@ -34,7 +34,7 @@ sf_count_t read_from_file(AudioFile file, float* buffer, sf_count_t frames);
 // writes size buffers from buffer to file
 sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames);
 
-void read_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync);
+void read_file_threadworker(AudioFile* file, TPCircularBuffer* buffer, int* threadSync);
 
 void write_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync);
 

@@ -48,16 +48,17 @@ sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames)
     
 }
 
-void read_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)
+void read_file_threadworker(AudioFile* file, TPCircularBuffer* buffer, int* threadSync)
 {
-    while (threadSync == 0)
+    int FRAME_SIZE = file->sndinfo.channels *sizeof(float);
+//    while(1)
     {
         int32_t availableBytes;
         void *write_start = TPCircularBufferHead(buffer, &availableBytes);
         float bytes_to_read[availableBytes];
-        int channels = file.sndinfo.channels;
-        sf_count_t amount_to_read = availableBytes/(channels*sizeof(float));
-        sf_count_t amount_read = read_from_file(file, bytes_to_read, amount_to_read); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
+        int channels = file->sndinfo.channels;
+        sf_count_t amount_to_read = availableBytes/FRAME_SIZE;
+        sf_count_t amount_read = read_from_file(*file, bytes_to_read, amount_to_read); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
         if (amount_read < availableBytes){ // done reading
            *threadSync = 1;
         }
