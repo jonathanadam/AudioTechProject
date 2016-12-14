@@ -92,131 +92,134 @@ int record_short()
     inputParameters.hostApiSpecificStreamInfo = NULL;
 //    
 //    /* Record some audio. -------------------------------------------- */
-//    err = Pa_OpenStream(
-//                        &stream,
-//                        &inputParameters,
-//                        NULL,                  /* &outputParameters, */
-//                        SAMPLE_RATE,
-//                        FRAMES_PER_BUFFER,
-//                        paClipOff,      /* we won't output out of range samples so don't bother clipping them */
-//                        shortrecordCallback,
-//                        &data );
-//    //    if( err != paNoError ) goto done;
-//    
-//    err = Pa_StartStream( stream );
-//    if( err != paNoError ) goto done;
-//    printf("\n=== Now recording!! Please speak into the microphone. ===\n"); fflush(stdout);
-//    
-//    while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
-//    {
-//        Pa_Sleep(1000);
-//    }
-//    if( err < 0 ) goto done;
-//    
-//    err = Pa_CloseStream( stream );
-//    if( err != paNoError ) goto done;
+    err = Pa_OpenStream(
+                        &stream,
+                        &inputParameters,
+                        NULL,                  /* &outputParameters, */
+                        SAMPLE_RATE,
+                        FRAMES_PER_BUFFER,
+                        paClipOff,      /* we won't output out of range samples so don't bother clipping them */
+                        recordCallback,
+                        &data );
+    //    if( err != paNoError ) goto done;
     
-//done:
-//    Pa_Terminate();
-//    if( data.recordedSamples )       /* Sure it is NULL or valid. */
-//        delete[] data.recordedSamples ;
-//    if( err != paNoError )
-//    {
-//        fprintf( stderr, "An error occured while using the portaudio stream\n" );
-//        fprintf( stderr, "Error number: %d\n", err );
-//        fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
-//        err = 1;          /* Always return 0 or 1, but no other return codes. */
-//    }
-//    return err;
+    
+    err = Pa_StartStream( stream );
+    if( err != paNoError ) goto done;
+    printf("\n=== Now recording!! Please speak into the microphone. ===\n"); fflush(stdout);
+    
+    while( ( err = Pa_IsStreamActive( stream ) ) == 1 )
+    {
+        Pa_Sleep(1000);
+    }
+    if( err < 0 ) goto done;
+    
+    err = Pa_CloseStream( stream );
+    if( err != paNoError ) goto done;
+
     
     /*Write audio to a file with a single call */
     
-//    SF_INFO soundinfo;
-//    {
-//        SoundInfo soundinfo = {totalFrames, SAMPLE_RATE, NUM_CHANNELS, 0x010000|0x0002, NULL, NULL};
-//        AudioFile testfile = open_file("/Users/jonathanadam/Documents/test_file.wav",SFM_WRITE, &soundinfo);
-//        printf("Writing\n");
-//
-//        printf("Number of bytes is");
-//        cout<< totalFrames;
-//        sf_count_t stuff = write_to_file(testfile, data.recordedSamples, totalFrames);
-////        sf_count_t stuff = sf_writef_float(testfile.sndfile, data.recordedSamples, totalFrames);
-//        printf("\n\n\n\n Number of stuff written is \n");
-////        cout<<stuff;
-//        close_file(testfile);
-//    }
-    
-    //    /* Playback recorded data.  -------------------------------------------- */
-        data.frameIndex = 0;
-//
     {
-        SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
-        AudioFile othertest = open_file("/Users/jonathanadam/Documents/moartest.wav",SFM_READ, &readinfo);
-//        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
-//        int32_t available;
-//        void *head = TPCircularBufferHead(&data.buffer, &available);
-//        memcpy(head, data.recordedSamples, numBytes);
-//        TPCircularBufferProduce(&data.buffer, numBytes);
+        SoundInfo soundinfo = {totalFrames, SAMPLE_RATE, NUM_CHANNELS, 0x010000|0x0002, NULL, NULL};
+        AudioFile testfile = open_file("/Users/jonathanadam/Documents/buffertest.wav",SFM_WRITE, &soundinfo);
+        printf("Writing\n");
         
-        printf("trying to do the thing.\n\nn\n");
-        read_file_threadworker(&othertest, &data.buffer, &data.threadSync);
-        //Buffer experiment
-
-        //end of buffer experiment
-        printf("weve tried to write stuff");
-        close_file(othertest);
+        printf("Number of bytes is");
+        cout<< totalFrames;
+        sf_count_t stuff = write_to_file(testfile, data.recordedSamples, totalFrames);
+        //        sf_count_t stuff = sf_writef_float(testfile.sndfile, data.recordedSamples, totalFrames);
+        printf("\n\n\n\n Number of stuff written is \n");
+        //        cout<<stuff;
+        close_file(testfile);
     }
     
-        outputParameters.device = Pa_GetDefaultOutputDevice(); /* default output device */
-        if (outputParameters.device == paNoDevice) {
-            fprintf(stderr,"Error: No default output device.\n");
-            goto done;
-        }
-        outputParameters.channelCount = 2;                     /* stereo output */
-        outputParameters.sampleFormat =  PA_SAMPLE_TYPE;
-        outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
-        outputParameters.hostApiSpecificStreamInfo = NULL;
+done:
+    Pa_Terminate();
+    if( data.recordedSamples )       /* Sure it is NULL or valid. */
+        delete[] data.recordedSamples ;
+    if( err != paNoError )
+    {
+        fprintf( stderr, "An error occured while using the portaudio stream\n" );
+        fprintf( stderr, "Error number: %d\n", err );
+        fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
+        err = 1;          /* Always return 0 or 1, but no other return codes. */
+    }
+    return err;
     
-        printf("\n=== Now playing back. ===\n"); fflush(stdout);
-        err = Pa_OpenStream(
-                            &stream,
-                            NULL, /* no input */
-                            &outputParameters,
-                            SAMPLE_RATE,
-                            FRAMES_PER_BUFFER,
-                            paClipOff,      /* we won't output out of range samples so don't bother clipping them */
-                            playCallback,
-                            &data );
-        if( err != paNoError ) goto done;
+
     
-        if( stream )
-        {
-            err = Pa_StartStream( stream );
-            if( err != paNoError ) goto  done;
-    
-            printf("Waiting for playback to finish.\n"); fflush(stdout);
-    
-            while( ( err = Pa_IsStreamActive( stream ) ) == 1 ) Pa_Sleep(100);
-            if( err < 0 ) goto done;
-    
-            err = Pa_CloseStream( stream );
-            if( err != paNoError ) goto done;
-    
-            printf("Done.\n"); fflush(stdout);
-        }
-    
-        done:
-        Pa_Terminate();
-        if( data.recordedSamples )       /* Sure it is NULL or valid. */
-            delete[] data.recordedSamples ;
-        if( err != paNoError )
-        {
-            fprintf( stderr, "An error occured while using the portaudio stream\n" );
-            fprintf( stderr, "Error number: %d\n", err );
-            fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
-            err = 1;          /* Always return 0 or 1, but no other return codes. */
-        }
-        return err;
+    //    /* Playback recorded data.  -------------------------------------------- */
+//        data.frameIndex = 0;
+////
+//    {
+//        SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
+//        AudioFile othertest = open_file("/Users/jonathanadam/Documents/moartest.wav",SFM_READ, &readinfo);
+////        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
+////        int32_t available;
+////        void *head = TPCircularBufferHead(&data.buffer, &available);
+////        memcpy(head, data.recordedSamples, numBytes);
+////        TPCircularBufferProduce(&data.buffer, numBytes);
+//        
+//        printf("trying to do the thing.\n\nn\n");
+//        read_file_threadworker(&othertest, &data.buffer, &data.threadSync);
+//        //Buffer experiment
+//
+//        //end of buffer experiment
+//        printf("weve tried to write stuff");
+//        close_file(othertest);
+//    }
+//    
+//        outputParameters.device = Pa_GetDefaultOutputDevice(); /* default output device */
+//        if (outputParameters.device == paNoDevice) {
+//            fprintf(stderr,"Error: No default output device.\n");
+//            goto done;
+//        }
+//        outputParameters.channelCount = 2;                     /* stereo output */
+//        outputParameters.sampleFormat =  PA_SAMPLE_TYPE;
+//        outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
+//        outputParameters.hostApiSpecificStreamInfo = NULL;
+//    
+//        printf("\n=== Now playing back. ===\n"); fflush(stdout);
+//        err = Pa_OpenStream(
+//                            &stream,
+//                            NULL, /* no input */
+//                            &outputParameters,
+//                            SAMPLE_RATE,
+//                            FRAMES_PER_BUFFER,
+//                            paClipOff,      /* we won't output out of range samples so don't bother clipping them */
+//                            playCallback,
+//                            &data );
+//        if( err != paNoError ) goto done;
+//    
+//        if( stream )
+//        {
+//            err = Pa_StartStream( stream );
+//            if( err != paNoError ) goto  done;
+//    
+//            printf("Waiting for playback to finish.\n"); fflush(stdout);
+//    
+//            while( ( err = Pa_IsStreamActive( stream ) ) == 1 ) Pa_Sleep(100);
+//            if( err < 0 ) goto done;
+//    
+//            err = Pa_CloseStream( stream );
+//            if( err != paNoError ) goto done;
+//    
+//            printf("Done.\n"); fflush(stdout);
+//        }
+//    
+//        done:
+//        Pa_Terminate();
+//        if( data.recordedSamples )       /* Sure it is NULL or valid. */
+//            delete[] data.recordedSamples ;
+//        if( err != paNoError )
+//        {
+//            fprintf( stderr, "An error occured while using the portaudio stream\n" );
+//            fprintf( stderr, "Error number: %d\n", err );
+//            fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
+//            err = 1;          /* Always return 0 or 1, but no other return codes. */
+//        }
+//        return err;
 
 }
 

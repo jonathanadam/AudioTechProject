@@ -62,8 +62,8 @@ int main(void)
 //    printf("Were done");
   
     
-    //record_short();
-    play_file("/Users/jonathanadam/Documents/moartest.wav", 00);
+    record_short();
+//    play_file("/Users/jonathanadam/Music/2016-03-18JonathanAdamGrant/Jonathan Adam- Music for Walking - 18 March 2016 - WAV/2016-03-18JonathanAdam_ Music for Walking - 7.wav", 00);
     
     
     
