@@ -19,6 +19,7 @@
 #define SAMPLE_RATE  (44100)
 #define FRAMES_PER_BUFFER (512)
 #define NUM_SECONDS     (5)
+//int NUM_SECONDS;
 #define NUM_CHANNELS    (2)
 /* #define DITHER_FLAG     (paDitherOff) */
 #define DITHER_FLAG     (0) /**/
@@ -52,7 +53,11 @@ typedef unsigned char SAMPLE;
 
 int record_short()
 {
-    printf("hellooo again \n");
+    printf("Hi there. \n");
+//    printf("Please let us know how long you want to record for. Not too long!\n");
+//    int seconds;
+//    cin >> seconds;
+//    NUM_SECONDS = seconds;
     PaStreamParameters  inputParameters,
     outputParameters;
     PaStream*           stream;
@@ -63,21 +68,14 @@ int record_short()
     int                 numSamples;
     int                 numBytes;
     
-    printf("patest_record.c\n"); fflush(stdout);
-    
+//    printf("patest_record.c\n"); fflush(stdout);
+//    
     data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
     data.frameIndex = 0;
     numSamples = totalFrames * NUM_CHANNELS;
     numBytes = numSamples * sizeof(SAMPLE);
-    data.recordedSamples = new SAMPLE [numBytes];
-    if( data.recordedSamples == NULL )
-    {
-        printf("Could not allocate record array.\n");
-        //        goto done;
-    }
-    for( i=0; i<numSamples; i++ ) data.recordedSamples[i] = 0;
     TPCircularBufferInit(&data.buffer, numBytes);
-    
+//
     err = Pa_Initialize();
     if( err != paNoError ) goto done;
     
@@ -90,7 +88,7 @@ int record_short()
     inputParameters.sampleFormat = PA_SAMPLE_TYPE;
     inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultLowInputLatency;
     inputParameters.hostApiSpecificStreamInfo = NULL;
-//    
+////
 //    /* Record some audio. -------------------------------------------- */
     err = Pa_OpenStream(
                         &stream,
@@ -127,17 +125,16 @@ int record_short()
         
         printf("Number of bytes is");
         cout<< totalFrames;
-        sf_count_t stuff = write_to_file(testfile, data.recordedSamples, totalFrames);
-        //        sf_count_t stuff = sf_writef_float(testfile.sndfile, data.recordedSamples, totalFrames);
+        write_file_threadworker(testfile, &data.buffer, &data.threadSync);
         printf("\n\n\n\n Number of stuff written is \n");
         //        cout<<stuff;
         close_file(testfile);
     }
     
 done:
-    Pa_Terminate();
-    if( data.recordedSamples )       /* Sure it is NULL or valid. */
-        delete[] data.recordedSamples ;
+//    Pa_Terminate();
+//    if( data.recordedSamples )       /* Sure it is NULL or valid. */
+//        delete[] data.recordedSamples ;
     if( err != paNoError )
     {
         fprintf( stderr, "An error occured while using the portaudio stream\n" );
@@ -145,81 +142,84 @@ done:
         fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
         err = 1;          /* Always return 0 or 1, but no other return codes. */
     }
-    return err;
+    //return err;
     
 
     
     //    /* Playback recorded data.  -------------------------------------------- */
-//        data.frameIndex = 0;
-////
-//    {
-//        SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
-//        AudioFile othertest = open_file("/Users/jonathanadam/Documents/moartest.wav",SFM_READ, &readinfo);
-////        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
-////        int32_t available;
-////        void *head = TPCircularBufferHead(&data.buffer, &available);
-////        memcpy(head, data.recordedSamples, numBytes);
-////        TPCircularBufferProduce(&data.buffer, numBytes);
-//        
-//        printf("trying to do the thing.\n\nn\n");
-//        read_file_threadworker(&othertest, &data.buffer, &data.threadSync);
-//        //Buffer experiment
+        data.frameIndex = 0;
+        TPCircularBufferClear(&data.buffer);
 //
-//        //end of buffer experiment
-//        printf("weve tried to write stuff");
-//        close_file(othertest);
-//    }
-//    
-//        outputParameters.device = Pa_GetDefaultOutputDevice(); /* default output device */
-//        if (outputParameters.device == paNoDevice) {
-//            fprintf(stderr,"Error: No default output device.\n");
-//            goto done;
-//        }
-//        outputParameters.channelCount = 2;                     /* stereo output */
-//        outputParameters.sampleFormat =  PA_SAMPLE_TYPE;
-//        outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
-//        outputParameters.hostApiSpecificStreamInfo = NULL;
-//    
-//        printf("\n=== Now playing back. ===\n"); fflush(stdout);
-//        err = Pa_OpenStream(
-//                            &stream,
-//                            NULL, /* no input */
-//                            &outputParameters,
-//                            SAMPLE_RATE,
-//                            FRAMES_PER_BUFFER,
-//                            paClipOff,      /* we won't output out of range samples so don't bother clipping them */
-//                            playCallback,
-//                            &data );
-//        if( err != paNoError ) goto done;
-//    
-//        if( stream )
-//        {
-//            err = Pa_StartStream( stream );
-//            if( err != paNoError ) goto  done;
-//    
-//            printf("Waiting for playback to finish.\n"); fflush(stdout);
-//    
-//            while( ( err = Pa_IsStreamActive( stream ) ) == 1 ) Pa_Sleep(100);
-//            if( err < 0 ) goto done;
-//    
-//            err = Pa_CloseStream( stream );
-//            if( err != paNoError ) goto done;
-//    
-//            printf("Done.\n"); fflush(stdout);
-//        }
-//    
-//        done:
-//        Pa_Terminate();
+    {
+        SF_INFO readinfo = {NULL, NULL, NULL, 0, NULL, NULL};
+        AudioFile othertest = open_file("/Users/jonathanadam/Documents/buffertest.wav",SFM_READ, &readinfo);
+//        sf_count_t moarstuff = read_from_file(othertest, data.recordedSamples, totalFrames);
+//        int32_t available;
+//        void *head = TPCircularBufferHead(&data.buffer, &available);
+//        memcpy(head, data.recordedSamples, numBytes);
+//        TPCircularBufferProduce(&data.buffer, numBytes);
+        
+        printf("trying to do the thing.\n\nn\n");
+        read_file_threadworker(othertest, &data.buffer, &data.threadSync);
+        //Buffer experiment
+
+        //end of buffer experiment
+        printf("weve tried to write stuff");
+        close_file(othertest);
+    }
+    
+        outputParameters.device = Pa_GetDefaultOutputDevice(); /* default output device */
+        if (outputParameters.device == paNoDevice) {
+            printf("Here are teh devices i found");
+            cout <<Pa_GetDeviceCount();
+            fprintf(stderr,"Error: No default output device.\n");
+            goto done_again;
+        }
+        outputParameters.channelCount = 2;                     /* stereo output */
+        outputParameters.sampleFormat =  PA_SAMPLE_TYPE;
+        outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
+        outputParameters.hostApiSpecificStreamInfo = NULL;
+    
+        printf("\n=== Now playing back. ===\n"); fflush(stdout);
+        err = Pa_OpenStream(
+                            &stream,
+                            NULL, /* no input */
+                            &outputParameters,
+                            SAMPLE_RATE,
+                            FRAMES_PER_BUFFER,
+                            paClipOff,      /* we won't output out of range samples so don't bother clipping them */
+                            playCallback,
+                            &data );
+        if( err != paNoError ) goto done_again;
+    
+        if( stream )
+        {
+            err = Pa_StartStream( stream );
+            if( err != paNoError ) goto  done_again;
+    
+            printf("Waiting for playback to finish.\n"); fflush(stdout);
+    
+            while( ( err = Pa_IsStreamActive( stream ) ) == 1 ) Pa_Sleep(100);
+            if( err < 0 ) goto done_again;
+    
+            err = Pa_CloseStream( stream );
+            if( err != paNoError ) goto done_again;
+    
+            printf("Done.\n"); fflush(stdout);
+        }
+    
+        done_again:
+        Pa_Terminate();
 //        if( data.recordedSamples )       /* Sure it is NULL or valid. */
 //            delete[] data.recordedSamples ;
-//        if( err != paNoError )
-//        {
-//            fprintf( stderr, "An error occured while using the portaudio stream\n" );
-//            fprintf( stderr, "Error number: %d\n", err );
-//            fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
-//            err = 1;          /* Always return 0 or 1, but no other return codes. */
-//        }
-//        return err;
+        if( err != paNoError )
+        {
+            fprintf( stderr, "An error occured while using the portaudio stream\n" );
+            fprintf( stderr, "Error number: %d\n", err );
+            fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
+            err = 1;          /* Always return 0 or 1, but no other return codes. */
+        }
+        return err;
 
 }
 
@@ -316,10 +316,20 @@ static int recordCallback( const void *inputBuffer, void *outputBuffer,
     }
     else
     {
-        for( i=0; i<framesToCalc; i++ )
+        
+        TPCircularBufferProduceBytes(&data->buffer, rptr, framesToCalc*sizeof(float)*NUM_CHANNELS);
+//        memcpy(wptr, rptr, framesToCalc*sizeof(float)*NUM_CHANNELS);
+//        TPCircularBufferProduce(&data->buffer, framesToCalc*sizeof(float)*NUM_CHANNELS);
+//        for( i=0; i<framesToCalc; i++ )
         {
-            *wptr++ = *rptr++;  /* left */
-            if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */
+//            if (NUM_CHANNELS == 1)
+            {
+                //TPCircularBufferProduceBytes(&data->buffer, rptr, NUM_CHANNELS*sizeof(float));
+            }
+//            *wptr++ = *rptr++;  /* left */
+//            TPCircularBufferProduce(&data->buffer, sizeof(float));
+//            if( NUM_CHANNELS == 2 ) *wptr++ = *rptr++;  /* right */
+//            TPCircularBufferProduce(&data->buffer, sizeof(float));
         }
     }
     data->frameIndex += framesToCalc;
@@ -474,10 +484,10 @@ void play_file(const char *filename, double startingpoint)
     err = Pa_Initialize();
     
     AudioFile fileToRead = open_file(filename, SFM_READ, &readinfo);
-    read_file_threadworker(&fileToRead, &data.buffer, &data.threadSync);
+    read_file_threadworker(fileToRead, &data.buffer, &data.threadSync);
 //    std::thread readFileToBuffer(read_file_threadworker, &fileToRead, &data.buffer, &data.threadSync);
 //    readFileToBuffer.detach();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+   // std::this_thread::sleep_for(std::chrono::seconds(1));
 //    printf("okay now lets get started");
     
     if( err != paNoError ) goto done;

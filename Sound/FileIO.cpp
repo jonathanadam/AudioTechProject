@@ -48,35 +48,47 @@ sf_count_t write_to_file(AudioFile file, float* buffer, sf_count_t frames)
     
 }
 
-void read_file_threadworker(AudioFile* file, TPCircularBuffer* buffer, int* threadSync)
+void read_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)
 {
-    int FRAME_SIZE = file->sndinfo.channels *sizeof(float);
+    int FRAME_SIZE = file.sndinfo.channels * sizeof(float);
+    printf("we are so here");
+
 //    while(1)
-    {
         int32_t availableBytes;
-        void *write_start = TPCircularBufferHead(buffer, &availableBytes);
+        printf("does this still work");
+        void* write_start = TPCircularBufferHead(buffer, &availableBytes);
+        printf("and this");
         float bytes_to_read[availableBytes];
-        int channels = file->sndinfo.channels;
+   //     printf("we are so here too");
+
+        int channels = file.sndinfo.channels;
         sf_count_t amount_to_read = availableBytes/FRAME_SIZE;
-        sf_count_t amount_read = read_from_file(*file, bytes_to_read, amount_to_read); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
+        printf("we are so here");
+        sf_count_t amount_read =read_from_file(file, bytes_to_read, amount_to_read); ///  FIGURE OUT HOW TO GET FRAMES FROM BYTES
         if (amount_read < availableBytes){ // done reading
            *threadSync = 1;
         }
         TPCircularBufferProduceBytes(buffer, bytes_to_read, availableBytes);
-        
-    }
+    
 }
 
 void write_file_threadworker(AudioFile file, TPCircularBuffer* buffer, int* threadSync)
 {
+    int FRAME_SIZE = file.sndinfo.channels *sizeof(float);
+    int stopWriting = 0;
     {
-        while (threadSync == 0){
+        while (stopWriting == 0){
             int32_t availableBytes;
+            cout << availableBytes << endl;
             void *read_start = TPCircularBufferTail(buffer, &availableBytes);
             float bytes_to_write[availableBytes];
+            int number_of_frames = availableBytes/FRAME_SIZE;
             memcpy(bytes_to_write, read_start, availableBytes); // FIGURE OUT FRAMES FROM BYTES
             TPCircularBufferConsume(buffer, availableBytes);
-            write_to_file(file, bytes_to_write, availableBytes);
+            sf_count_t numberWritten = write_to_file(file, bytes_to_write, number_of_frames);
+            if ((numberWritten != number_of_frames) || (availableBytes == 0)){
+                stopWriting = 1;
+            }
         }
     }
 }
